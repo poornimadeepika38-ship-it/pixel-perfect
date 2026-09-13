@@ -280,6 +280,7 @@ function Home() {
       ) : null}
 
       <CandidateDetail
+        industryAverage={jd?.industry_average_score ?? null}
         candidate={selected}
         onClose={() => setSelectedId(null)}
         onStatus={(status) => {
