@@ -10,7 +10,11 @@ import logo from "@/assets/resume-scan-logo.jpg.asset.json";
 import { Button } from "@/components/ui/button";
 import { JdModal } from "@/components/JdModal";
 import { JdBreakdown } from "@/components/JdBreakdown";
-import { ResumeUpload, type UploadItem } from "@/components/ResumeUpload";
+import {
+  ResumeUpload,
+  type ApplicationFiles,
+  type UploadItem,
+} from "@/components/ResumeUpload";
 import { Dashboard } from "@/components/Dashboard";
 import { CandidateDetail } from "@/components/CandidateDetail";
 import { supabase } from "@/integrations/supabase/client";
