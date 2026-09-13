@@ -160,7 +160,9 @@ export function Dashboard({
                 <td className="px-4 py-3">
                   <p className="font-medium">{candidate.full_name ?? candidate.file_name}</p>
                   <p className="text-xs text-muted-foreground">
-                    {candidate.current_position ?? candidate.file_name}
+                    {candidate.status === "failed"
+                      ? (candidate.error_message ?? "This resume couldn't be read")
+                      : (candidate.current_position ?? candidate.file_name)}
                   </p>
                 </td>
                 <td className="px-4 py-3">
