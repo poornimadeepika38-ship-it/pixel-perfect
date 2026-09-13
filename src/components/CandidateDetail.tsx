@@ -11,16 +11,19 @@ import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { ScoreRing } from "@/components/ScoreRing";
 import { SkillPill } from "@/components/SkillPill";
+import { ConfidenceBadge, IndustryDelta } from "@/components/MatchSignals";
 import type { ScoredCandidate } from "@/lib/screening.functions";
 
 export function CandidateDetail({
   candidate,
   onClose,
   onStatus,
+  industryAverage,
 }: {
   candidate: ScoredCandidate | null;
   onClose: () => void;
   onStatus: (status: "shortlisted" | "rejected") => void;
+  industryAverage?: number | null;
 }) {
   const match = candidate?.match ?? null;
 
@@ -157,9 +160,29 @@ export function CandidateDetail({
                     </span>
                   ) : null}
                   <ScoreRing value={match?.overall_score ?? 0} size={132} thickness={11} label="Overall match" />
-                  <div className="mt-4 flex gap-6">
+                  <div className="mt-3 flex flex-col items-center gap-2">
+                    <IndustryDelta
+                      score={match?.overall_score ?? 0}
+                      average={industryAverage ?? null}
+                    />
+                    <ConfidenceBadge confidence={match?.confidence} />
+                    {match?.confidence_reason ? (
+                      <p className="text-center text-xs text-muted-foreground">
+                        {match.confidence_reason}
+                      </p>
+                    ) : null}
+                  </div>
+                  <div className="mt-4 flex flex-wrap justify-center gap-6">
                     <ScoreRing value={match?.keyword_score ?? 0} size={72} thickness={7} label="Keyword" />
                     <ScoreRing value={match?.semantic_score ?? 0} size={72} thickness={7} label="Contextual fit" />
+                    {match?.cover_letter_score != null ? (
+                      <ScoreRing
+                        value={match.cover_letter_score}
+                        size={72}
+                        thickness={7}
+                        label="Cover letter"
+                      />
+                    ) : null}
                   </div>
                 </motion.div>
 

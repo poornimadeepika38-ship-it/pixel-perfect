@@ -12,20 +12,37 @@ import {
 } from "@/components/ui/dialog";
 import { Textarea } from "@/components/ui/textarea";
 
-const SAMPLE = `Senior React Developer
+const SAMPLE = `Senior Frontend Engineer (React) — Resume Scan
+Location: Bengaluru (hybrid, 3 days on-site) · Full-time
 
-TechCorp Inc. seeks a Senior React Developer to lead frontend development.
+About the role
+We are a small product team building AI-assisted hiring tools used by recruiters every day. You will own the web application end to end: the screening dashboard, the candidate detail experience, and the upload pipeline. You will work directly with the founders and a designer, ship weekly, and be accountable for both the quality of the interface and the performance of the product in real recruiter workflows.
 
-Requirements:
-- 5+ years web development
-- React & TypeScript proficiency
-- Node.js backend integration
-- PostgreSQL knowledge
-- REST API design & implementation
-- Docker containerization
-- Bachelor's in CS or equivalent
+What you will do
+- Build and maintain production React interfaces with TypeScript, from design hand-off to release
+- Design component APIs and a shared design system that other engineers build on
+- Integrate with REST and streaming APIs, handle loading, empty, and error states properly
+- Work with Postgres-backed services and write the server-side glue your features need
+- Own performance: bundle size, rendering cost, Core Web Vitals on real devices
+- Write tests around critical flows and review teammates' pull requests
 
-Nice to have: AWS, GraphQL, Jest, React Testing Library, Figma`;
+Requirements
+- 5+ years building production web applications, at least 3 of them in React
+- Strong TypeScript: generics, discriminated unions, and strict-mode codebases
+- Solid CSS skills, ideally Tailwind, with real accessibility and responsive experience
+- Comfortable with Node.js services and consuming or designing REST APIs
+- Working knowledge of SQL and PostgreSQL data modelling
+- Experience with Git-based team workflows, CI, and code review
+- Bachelor's degree in Computer Science or equivalent practical experience
+
+Nice to have
+- Experience with AI or LLM-powered product features
+- GraphQL, Jest or Vitest, Playwright, Docker
+- Prior work in HR tech, recruiting, or another document-heavy domain
+- Comfort collaborating in Figma and contributing to product decisions
+
+What we offer
+Competitive salary, meaningful equity, learning budget, and a short path from idea to production.`;
 
 export function JdModal({
   open,

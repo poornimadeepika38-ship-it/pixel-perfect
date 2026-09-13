@@ -14,6 +14,7 @@ import {
 import { Slider } from "@/components/ui/slider";
 import { ScoreBar } from "@/components/ScoreRing";
 import { SkillPill } from "@/components/SkillPill";
+import { ConfidenceBadge, IndustryDelta } from "@/components/MatchSignals";
 import type { JobDescription, ScoredCandidate } from "@/lib/screening.functions";
 
 type SortKey = "score" | "name" | "date";
@@ -82,11 +83,12 @@ export function Dashboard({
         </Button>
       </div>
 
-      <div className="mt-6 grid grid-cols-3 gap-3">
+      <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-4">
         {[
           { label: "Candidates", value: stats.total },
           { label: "Average score", value: stats.avg },
           { label: "Top score", value: stats.top },
+          { label: "Industry average", value: jd.industry_average_score ?? "–" },
         ].map((stat, index) => (
           <motion.div
             key={stat.label}
@@ -167,6 +169,18 @@ export function Dashboard({
                 </td>
                 <td className="px-4 py-3">
                   <ScoreBar value={candidate.match?.overall_score ?? 0} />
+                  <div className="mt-1.5 flex flex-wrap items-center gap-2">
+                    <IndustryDelta
+                      score={candidate.match?.overall_score ?? 0}
+                      average={jd.industry_average_score}
+                    />
+                    {candidate.match ? (
+                      <ConfidenceBadge confidence={candidate.match.confidence} />
+                    ) : null}
+                    {candidate.cover_letter_file_name ? (
+                      <span className="text-xs text-muted-foreground">+ cover letter</span>
+                    ) : null}
+                  </div>
                 </td>
                 <td className="max-w-56 px-4 py-3">
                   <div className="flex flex-wrap gap-1">
@@ -229,6 +243,15 @@ export function Dashboard({
             </div>
             <div className="mt-2">
               <ScoreBar value={candidate.match?.overall_score ?? 0} />
+              <div className="mt-1.5 flex flex-wrap items-center gap-2">
+                <IndustryDelta
+                  score={candidate.match?.overall_score ?? 0}
+                  average={jd.industry_average_score}
+                />
+                {candidate.match ? (
+                  <ConfidenceBadge confidence={candidate.match.confidence} />
+                ) : null}
+              </div>
             </div>
             <div className="mt-3 flex flex-wrap gap-1">
               {(candidate.match?.matched_skills ?? []).slice(0, 5).map((skill, i) => (
