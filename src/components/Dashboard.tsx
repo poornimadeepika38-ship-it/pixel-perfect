@@ -83,11 +83,12 @@ export function Dashboard({
         </Button>
       </div>
 
-      <div className="mt-6 grid grid-cols-3 gap-3">
+      <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-4">
         {[
           { label: "Candidates", value: stats.total },
           { label: "Average score", value: stats.avg },
           { label: "Top score", value: stats.top },
+          { label: "Industry average", value: jd.industry_average_score ?? "–" },
         ].map((stat, index) => (
           <motion.div
             key={stat.label}
