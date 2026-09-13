@@ -167,6 +167,18 @@ export function Dashboard({
                 </td>
                 <td className="px-4 py-3">
                   <ScoreBar value={candidate.match?.overall_score ?? 0} />
+                  <div className="mt-1.5 flex flex-wrap items-center gap-2">
+                    <IndustryDelta
+                      score={candidate.match?.overall_score ?? 0}
+                      average={jd.industry_average_score}
+                    />
+                    {candidate.match ? (
+                      <ConfidenceBadge confidence={candidate.match.confidence} />
+                    ) : null}
+                    {candidate.cover_letter_file_name ? (
+                      <span className="text-xs text-muted-foreground">+ cover letter</span>
+                    ) : null}
+                  </div>
                 </td>
                 <td className="max-w-56 px-4 py-3">
                   <div className="flex flex-wrap gap-1">
