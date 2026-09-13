@@ -41,7 +41,7 @@ export function ResumeUpload({
     const next: File[] = [];
     const problems: string[] = [];
     for (const file of Array.from(incoming)) {
-      if (!isAllowed(file)) problems.push(`${file.name} is not a PDF or DOCX file`);
+      if (!isAllowed(file)) problems.push(`${file.name} is not a PDF, DOCX or TXT file`);
       else if (file.size > MAX_BYTES) problems.push(`${file.name} is larger than 5 MB`);
       else next.push(file);
     }
@@ -56,7 +56,7 @@ export function ResumeUpload({
     <section className="mx-auto w-full max-w-3xl px-4 py-10">
       <h1 className="font-display text-3xl font-bold">Add the resumes</h1>
       <p className="mt-2 text-muted-foreground">
-        PDF or DOCX, up to 5 MB each, {MAX_FILES} files maximum.
+        PDF, DOCX or TXT, up to 5 MB each, {MAX_FILES} files maximum.
       </p>
 
       <motion.div
@@ -167,7 +167,7 @@ export function ResumeUpload({
           disabled={files.length === 0 || running}
           onClick={() => onAnalyze(files)}
         >
-          Analyse {files.length > 0 ? `${files.length} resume${files.length > 1 ? "s" : ""}` : "resumes"}
+          Analyze {files.length > 0 ? `${files.length} resume${files.length > 1 ? "s" : ""}` : "resumes"}
         </Button>
       )}
     </section>
