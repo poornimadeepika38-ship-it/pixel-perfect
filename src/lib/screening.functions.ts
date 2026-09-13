@@ -82,7 +82,9 @@ export const parseJobDescription = createServerFn({ method: "POST" })
       `Extract the job requirements from the text below.
 
 Return JSON with exactly these keys:
-{"title": string, "company": string, "required_skills": string[], "preferred_skills": string[], "min_experience_years": number|null, "max_experience_years": number|null, "education_requirement": string|null, "role_summary": string (2-3 sentences), "job_level": "Junior"|"Mid"|"Senior"|"Lead"}
+{"title": string, "company": string, "required_skills": string[], "preferred_skills": string[], "min_experience_years": number|null, "max_experience_years": number|null, "education_requirement": string|null, "role_summary": string (2-3 sentences), "job_level": "Junior"|"Mid"|"Senior"|"Lead", "industry_average_score": number (0-100)}
+
+"industry_average_score" is your estimate of the typical overall match score a normal applicant pool achieves for this kind of role in this industry (usually between 35 and 65).
 
 Skills must be short canonical names (e.g. "React", "TypeScript", "PostgreSQL").
 
