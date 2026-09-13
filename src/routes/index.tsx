@@ -87,19 +87,26 @@ function Home() {
     setCandidates(rows);
   }
 
-  async function handleAnalyze(files: File[]) {
+  async function handleAnalyze(applications: ApplicationFiles[]) {
     if (!jd) return;
     setRunning(true);
     setUploads(
-      files.map((file, index) => ({
-        id: `${index}-${file.name}`,
-        name: file.name,
+      applications.map((app, index) => ({
+        id: `${index}-${app.resume.name}`,
+        name: app.cover ? `${app.resume.name} + cover letter` : app.resume.name,
         state: "queued" as const,
       })),
     );
 
-    for (const [index, file] of files.entries()) {
-      const id = `${index}-${file.name}`;
+    const upload = async (file: File) => {
+      const path = `${jd.id}/${crypto.randomUUID()}-${file.name.replace(/[^\w.\-]/g, "_")}`;
+      const result = await supabase.storage.from("resumes").upload(path, file);
+      if (result.error) throw new Error(result.error.message);
+      return path;
+    };
+
+    for (const [index, app] of applications.entries()) {
+      const id = `${index}-${app.resume.name}`;
       const patch = (state: UploadItem["state"], error?: string) =>
         setUploads((current) =>
           current.map((item) => (item.id === id ? { ...item, state, error } : item)),
@@ -107,13 +114,19 @@ function Home() {
 
       try {
         patch("uploading");
-        const path = `${jd.id}/${crypto.randomUUID()}-${file.name.replace(/[^\w.\-]/g, "_")}`;
-        const upload = await supabase.storage.from("resumes").upload(path, file);
-        if (upload.error) throw new Error(upload.error.message);
+        const path = await upload(app.resume);
+        const coverPath = app.cover ? await upload(app.cover) : undefined;
 
         patch("analyzing");
         await analyseResume({
-          data: { job_description_id: jd.id, file_path: path, file_name: file.name },
+          data: {
+            job_description_id: jd.id,
+            file_path: path,
+            file_name: app.resume.name,
+            ...(coverPath
+              ? { cover_letter_path: coverPath, cover_letter_file_name: app.cover!.name }
+              : {}),
+          },
         });
         patch("done");
       } catch (error) {
