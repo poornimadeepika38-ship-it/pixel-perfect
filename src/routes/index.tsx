@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { useState } from "react";
 import { motion } from "motion/react";
-import { ArrowRight, Gauge, ScanSearch, ShieldCheck } from "lucide-react";
+import { ArrowLeft, ArrowRight, Gauge, ScanSearch, ShieldCheck } from "lucide-react";
 import { toast } from "sonner";
 import { Toaster } from "@/components/ui/sonner";
 
@@ -167,10 +167,18 @@ function Home() {
         >
           <img src={logo.url} alt="Resume Scan" className="h-9 w-auto" />
         </button>
-        {jd && step !== "hero" ? (
-          <Button variant="ghost" size="sm" onClick={() => setModalOpen(true)}>
-            New job description
-          </Button>
+        {step !== "hero" ? (
+          <div className="flex items-center gap-2">
+            <Button variant="outline" size="sm" onClick={() => setStep("hero")}>
+              <ArrowLeft className="size-4" aria-hidden />
+              Back to homepage
+            </Button>
+            {jd ? (
+              <Button variant="ghost" size="sm" onClick={() => setModalOpen(true)}>
+                New job description
+              </Button>
+            ) : null}
+          </div>
         ) : null}
       </header>
 
