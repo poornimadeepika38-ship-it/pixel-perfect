@@ -215,8 +215,8 @@ ${rawText}`,
           current_position: resume["current_position"] ? String(resume["current_position"]) : null,
           current_company: resume["current_company"] ? String(resume["current_company"]) : null,
           parsed_skills: skills,
-          parsed_education: (resume["education"] as unknown) ?? [],
-          parsed_experience: (resume["experience"] as unknown) ?? [],
+          parsed_education: (resume["education"] ?? []) as never,
+          parsed_experience: (resume["experience"] ?? []) as never,
           total_experience_years:
             typeof resume["total_experience_years"] === "number"
               ? resume["total_experience_years"]
