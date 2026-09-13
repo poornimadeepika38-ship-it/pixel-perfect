@@ -242,6 +242,15 @@ export function Dashboard({
             </div>
             <div className="mt-2">
               <ScoreBar value={candidate.match?.overall_score ?? 0} />
+              <div className="mt-1.5 flex flex-wrap items-center gap-2">
+                <IndustryDelta
+                  score={candidate.match?.overall_score ?? 0}
+                  average={jd.industry_average_score}
+                />
+                {candidate.match ? (
+                  <ConfidenceBadge confidence={candidate.match.confidence} />
+                ) : null}
+              </div>
             </div>
             <div className="mt-3 flex flex-wrap gap-1">
               {(candidate.match?.matched_skills ?? []).slice(0, 5).map((skill, i) => (
