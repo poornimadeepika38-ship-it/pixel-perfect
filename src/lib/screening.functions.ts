@@ -163,6 +163,8 @@ export const processResume = createServerFn({ method: "POST" })
         job_description_id: z.string().uuid(),
         file_path: z.string().min(1),
         file_name: z.string().min(1),
+        cover_letter_path: z.string().min(1).optional(),
+        cover_letter_file_name: z.string().min(1).optional(),
       })
       .parse(input),
   )
