@@ -97,9 +97,5 @@ async function requestJson<T>(system: string, user: string): Promise<T> {
   const content = payload.choices?.[0]?.message?.content ?? "";
   if (!content) throw new AiGatewayError(502, "The AI returned an empty response.");
 
-  try {
-    return JSON.parse(stripFences(content)) as T;
-  } catch {
-    throw new AiGatewayError(502, "The AI response could not be read.");
-  }
+  return extractJson(content) as T;
 }
