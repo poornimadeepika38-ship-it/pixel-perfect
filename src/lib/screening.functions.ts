@@ -16,6 +16,7 @@ export type JobDescription = {
   education_requirement: string | null;
   role_summary: string | null;
   job_level: string | null;
+  industry_average_score: number | null;
 };
 
 export type CandidateRow = {
