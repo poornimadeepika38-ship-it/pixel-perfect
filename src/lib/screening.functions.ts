@@ -39,6 +39,8 @@ export type CandidateRow = {
   current_company: string | null;
   status: string;
   error_message: string | null;
+  cover_letter_file_name: string | null;
+  cover_letter_text: string | null;
 };
 
 export type MatchRow = {
