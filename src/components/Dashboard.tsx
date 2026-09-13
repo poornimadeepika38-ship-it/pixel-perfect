@@ -14,6 +14,7 @@ import {
 import { Slider } from "@/components/ui/slider";
 import { ScoreBar } from "@/components/ScoreRing";
 import { SkillPill } from "@/components/SkillPill";
+import { ConfidenceBadge, IndustryDelta } from "@/components/MatchSignals";
 import type { JobDescription, ScoredCandidate } from "@/lib/screening.functions";
 
 type SortKey = "score" | "name" | "date";
