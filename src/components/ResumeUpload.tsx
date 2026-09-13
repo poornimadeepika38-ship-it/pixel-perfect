@@ -9,7 +9,7 @@ export type UploadItem = {
   id: string;
   name: string;
   state: "queued" | "uploading" | "analyzing" | "done" | "failed";
-  error?: string;
+  error?: string | undefined;
 };
 
 const MAX_FILES = 20;
