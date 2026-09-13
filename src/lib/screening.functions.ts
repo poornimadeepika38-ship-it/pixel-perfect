@@ -271,7 +271,10 @@ ${rawText}`,
         `Analyse this candidate against the job requirements.
 
 Return JSON with exactly these keys:
-{"matched_skills": string[], "missing_skills": string[], "bonus_skills": string[], "contextual_fit_score": number (0-100), "ai_summary": string (2-3 sentences), "strengths": string[] (1-2 items), "concerns": string[] (1-2 items)}
+{"matched_skills": string[], "missing_skills": string[], "bonus_skills": string[], "contextual_fit_score": number (0-100), "cover_letter_score": number (0-100) or null, "confidence": "high"|"medium"|"low", "confidence_reason": string (1 sentence), "ai_summary": string (2-3 sentences), "strengths": string[] (1-2 items), "concerns": string[] (1-2 items)}
+
+"cover_letter_score" rates how well the cover letter argues for THIS role: relevance, specific evidence, motivation. Return null when no cover letter is provided.
+"confidence" is how certain you are that the score reflects a real match: "high" when the documents give clear, specific, verifiable evidence against most requirements; "medium" when evidence is partial or vague; "low" when the documents are short, generic, hard to parse, or off-topic.
 
 JOB: ${job.title} at ${job.company} (${job.job_level ?? "n/a"})
 Required skills: ${required.join(", ")}
@@ -280,20 +283,38 @@ Experience required: ${job.min_experience_years ?? "?"}-${job.max_experience_yea
 Education: ${job.education_requirement ?? "n/a"}
 
 CANDIDATE RESUME:
-${rawText}`,
+${rawText}
+
+COVER LETTER:
+${coverLetterText ?? "(none provided)"}`,
       );
 
-      const semantic = Math.max(
-        0,
-        Math.min(100, Number(analysis["contextual_fit_score"] ?? 0) || 0),
-      );
-      const overall = Math.round(0.4 * keywordScore + 0.6 * semantic);
+      const clamp = (value: unknown) =>
+        Math.max(0, Math.min(100, Math.round(Number(value ?? 0) || 0)));
+
+      const semantic = clamp(analysis["contextual_fit_score"]);
+      const hasCover = coverLetterText !== null && analysis["cover_letter_score"] !== null;
+      const coverScore = hasCover ? clamp(analysis["cover_letter_score"]) : null;
+      const overall =
+        coverScore === null
+          ? Math.round(0.4 * keywordScore + 0.6 * semantic)
+          : Math.round(0.35 * keywordScore + 0.5 * semantic + 0.15 * coverScore);
+
+      const confidenceRaw = String(analysis["confidence"] ?? "medium").toLowerCase();
+      const confidence = ["high", "medium", "low"].includes(confidenceRaw)
+        ? confidenceRaw
+        : "medium";
 
       const { error: matchError } = await sb.from("match_results").insert({
         candidate_id: candidateId,
         job_description_id: data.job_description_id,
         keyword_score: keywordScore,
         semantic_score: semantic,
+        cover_letter_score: coverScore,
+        confidence,
+        confidence_reason: analysis["confidence_reason"]
+          ? String(analysis["confidence_reason"])
+          : null,
         overall_score: overall,
         matched_skills: toArray(analysis["matched_skills"]),
         missing_skills: toArray(analysis["missing_skills"]),
