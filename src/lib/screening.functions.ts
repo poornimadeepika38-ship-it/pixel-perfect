@@ -55,6 +55,9 @@ export type MatchRow = {
   strengths: string[];
   concerns: string[];
   rank: number | null;
+  cover_letter_score: number | null;
+  confidence: string;
+  confidence_reason: string | null;
 };
 
 export type ScoredCandidate = CandidateRow & { match: MatchRow | null };
