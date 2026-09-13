@@ -177,6 +177,8 @@ export const processResume = createServerFn({ method: "POST" })
         job_description_id: data.job_description_id,
         file_name: data.file_name,
         file_path: data.file_path,
+        cover_letter_file_path: data.cover_letter_path ?? null,
+        cover_letter_file_name: data.cover_letter_file_name ?? null,
         status: "processing",
       })
       .select("id")
