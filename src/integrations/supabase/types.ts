@@ -14,7 +14,197 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      candidates: {
+        Row: {
+          analyzed_at: string | null
+          created_at: string
+          current_company: string | null
+          current_position: string | null
+          email: string | null
+          error_message: string | null
+          file_name: string
+          file_path: string | null
+          full_name: string | null
+          id: string
+          job_description_id: string
+          parsed_education: Json
+          parsed_experience: Json
+          parsed_skills: string[]
+          phone: string | null
+          raw_text: string | null
+          status: string
+          total_experience_years: number | null
+          updated_at: string
+        }
+        Insert: {
+          analyzed_at?: string | null
+          created_at?: string
+          current_company?: string | null
+          current_position?: string | null
+          email?: string | null
+          error_message?: string | null
+          file_name: string
+          file_path?: string | null
+          full_name?: string | null
+          id?: string
+          job_description_id: string
+          parsed_education?: Json
+          parsed_experience?: Json
+          parsed_skills?: string[]
+          phone?: string | null
+          raw_text?: string | null
+          status?: string
+          total_experience_years?: number | null
+          updated_at?: string
+        }
+        Update: {
+          analyzed_at?: string | null
+          created_at?: string
+          current_company?: string | null
+          current_position?: string | null
+          email?: string | null
+          error_message?: string | null
+          file_name?: string
+          file_path?: string | null
+          full_name?: string | null
+          id?: string
+          job_description_id?: string
+          parsed_education?: Json
+          parsed_experience?: Json
+          parsed_skills?: string[]
+          phone?: string | null
+          raw_text?: string | null
+          status?: string
+          total_experience_years?: number | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "candidates_job_description_id_fkey"
+            columns: ["job_description_id"]
+            isOneToOne: false
+            referencedRelation: "job_descriptions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      job_descriptions: {
+        Row: {
+          company: string
+          created_at: string
+          education_requirement: string | null
+          id: string
+          job_level: string | null
+          max_experience_years: number | null
+          min_experience_years: number | null
+          preferred_skills: string[]
+          raw_text: string
+          required_skills: string[]
+          role_summary: string | null
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          company?: string
+          created_at?: string
+          education_requirement?: string | null
+          id?: string
+          job_level?: string | null
+          max_experience_years?: number | null
+          min_experience_years?: number | null
+          preferred_skills?: string[]
+          raw_text: string
+          required_skills?: string[]
+          role_summary?: string | null
+          title?: string
+          updated_at?: string
+        }
+        Update: {
+          company?: string
+          created_at?: string
+          education_requirement?: string | null
+          id?: string
+          job_level?: string | null
+          max_experience_years?: number | null
+          min_experience_years?: number | null
+          preferred_skills?: string[]
+          raw_text?: string
+          required_skills?: string[]
+          role_summary?: string | null
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      match_results: {
+        Row: {
+          ai_summary: string | null
+          bonus_skills: string[]
+          candidate_id: string
+          concerns: string[]
+          created_at: string
+          id: string
+          job_description_id: string
+          keyword_score: number
+          matched_skills: string[]
+          missing_skills: string[]
+          overall_score: number
+          rank: number | null
+          semantic_score: number
+          strengths: string[]
+          updated_at: string
+        }
+        Insert: {
+          ai_summary?: string | null
+          bonus_skills?: string[]
+          candidate_id: string
+          concerns?: string[]
+          created_at?: string
+          id?: string
+          job_description_id: string
+          keyword_score?: number
+          matched_skills?: string[]
+          missing_skills?: string[]
+          overall_score?: number
+          rank?: number | null
+          semantic_score?: number
+          strengths?: string[]
+          updated_at?: string
+        }
+        Update: {
+          ai_summary?: string | null
+          bonus_skills?: string[]
+          candidate_id?: string
+          concerns?: string[]
+          created_at?: string
+          id?: string
+          job_description_id?: string
+          keyword_score?: number
+          matched_skills?: string[]
+          missing_skills?: string[]
+          overall_score?: number
+          rank?: number | null
+          semantic_score?: number
+          strengths?: string[]
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "match_results_candidate_id_fkey"
+            columns: ["candidate_id"]
+            isOneToOne: true
+            referencedRelation: "candidates"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "match_results_job_description_id_fkey"
+            columns: ["job_description_id"]
+            isOneToOne: false
+            referencedRelation: "job_descriptions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
