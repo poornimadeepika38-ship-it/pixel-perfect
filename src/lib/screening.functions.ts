@@ -253,6 +253,7 @@ ${rawText}`,
               ? resume["total_experience_years"]
               : null,
           raw_text: rawText,
+          cover_letter_text: coverLetterText,
         })
         .eq("id", candidateId);
 
