@@ -20,8 +20,40 @@ function stripFences(text: string) {
   return trimmed;
 }
 
-/** Calls the Lovable AI Gateway and returns parsed JSON from the model. */
+function extractJson(text: string) {
+  const cleaned = stripFences(text);
+  try {
+    return JSON.parse(cleaned) as unknown;
+  } catch {
+    const start = cleaned.indexOf("{");
+    const end = cleaned.lastIndexOf("}");
+    if (start >= 0 && end > start) {
+      return JSON.parse(cleaned.slice(start, end + 1)) as unknown;
+    }
+    throw new AiGatewayError(502, "The AI response could not be read.");
+  }
+}
+
+const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+
+/** Calls the Lovable AI Gateway and returns parsed JSON from the model. Retries transient failures. */
 export async function generateJson<T>(system: string, user: string): Promise<T> {
+  let lastError: unknown;
+  for (let attempt = 0; attempt < 3; attempt += 1) {
+    if (attempt > 0) await sleep(1200 * attempt);
+    try {
+      return await requestJson<T>(system, user);
+    } catch (error) {
+      lastError = error;
+      const status = error instanceof AiGatewayError ? error.status : 0;
+      // Terminal: bad request, unauthorised, no credits, blocked.
+      if (status === 400 || status === 401 || status === 402 || status === 403) throw error;
+    }
+  }
+  throw lastError;
+}
+
+async function requestJson<T>(system: string, user: string): Promise<T> {
   const apiKey = process.env["LOVABLE_API_KEY"];
   if (!apiKey) throw new AiGatewayError(401, "AI is not configured for this app.");
 
