@@ -11,16 +11,19 @@ import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { ScoreRing } from "@/components/ScoreRing";
 import { SkillPill } from "@/components/SkillPill";
+import { ConfidenceBadge, IndustryDelta } from "@/components/MatchSignals";
 import type { ScoredCandidate } from "@/lib/screening.functions";
 
 export function CandidateDetail({
   candidate,
   onClose,
   onStatus,
+  industryAverage,
 }: {
   candidate: ScoredCandidate | null;
   onClose: () => void;
   onStatus: (status: "shortlisted" | "rejected") => void;
+  industryAverage?: number | null;
 }) {
   const match = candidate?.match ?? null;
 
