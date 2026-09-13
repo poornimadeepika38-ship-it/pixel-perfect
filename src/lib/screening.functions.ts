@@ -110,6 +110,10 @@ ${data.raw_text}`,
           : null,
         role_summary: parsed["role_summary"] ? String(parsed["role_summary"]) : null,
         job_level: parsed["job_level"] ? String(parsed["job_level"]) : null,
+        industry_average_score:
+          typeof parsed["industry_average_score"] === "number"
+            ? Math.max(0, Math.min(100, Math.round(parsed["industry_average_score"])))
+            : 50,
       })
       .select("*")
       .single();
