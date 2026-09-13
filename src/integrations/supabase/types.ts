@@ -17,6 +17,9 @@ export type Database = {
       candidates: {
         Row: {
           analyzed_at: string | null
+          cover_letter_file_name: string | null
+          cover_letter_file_path: string | null
+          cover_letter_text: string | null
           created_at: string
           current_company: string | null
           current_position: string | null
@@ -38,6 +41,9 @@ export type Database = {
         }
         Insert: {
           analyzed_at?: string | null
+          cover_letter_file_name?: string | null
+          cover_letter_file_path?: string | null
+          cover_letter_text?: string | null
           created_at?: string
           current_company?: string | null
           current_position?: string | null
@@ -59,6 +65,9 @@ export type Database = {
         }
         Update: {
           analyzed_at?: string | null
+          cover_letter_file_name?: string | null
+          cover_letter_file_path?: string | null
+          cover_letter_text?: string | null
           created_at?: string
           current_company?: string | null
           current_position?: string | null
@@ -94,6 +103,7 @@ export type Database = {
           created_at: string
           education_requirement: string | null
           id: string
+          industry_average_score: number | null
           job_level: string | null
           max_experience_years: number | null
           min_experience_years: number | null
@@ -109,6 +119,7 @@ export type Database = {
           created_at?: string
           education_requirement?: string | null
           id?: string
+          industry_average_score?: number | null
           job_level?: string | null
           max_experience_years?: number | null
           min_experience_years?: number | null
@@ -124,6 +135,7 @@ export type Database = {
           created_at?: string
           education_requirement?: string | null
           id?: string
+          industry_average_score?: number | null
           job_level?: string | null
           max_experience_years?: number | null
           min_experience_years?: number | null
@@ -142,6 +154,9 @@ export type Database = {
           bonus_skills: string[]
           candidate_id: string
           concerns: string[]
+          confidence: string
+          confidence_reason: string | null
+          cover_letter_score: number | null
           created_at: string
           id: string
           job_description_id: string
@@ -159,6 +174,9 @@ export type Database = {
           bonus_skills?: string[]
           candidate_id: string
           concerns?: string[]
+          confidence?: string
+          confidence_reason?: string | null
+          cover_letter_score?: number | null
           created_at?: string
           id?: string
           job_description_id: string
@@ -176,6 +194,9 @@ export type Database = {
           bonus_skills?: string[]
           candidate_id?: string
           concerns?: string[]
+          confidence?: string
+          confidence_reason?: string | null
+          cover_letter_score?: number | null
           created_at?: string
           id?: string
           job_description_id?: string
