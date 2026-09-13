@@ -45,7 +45,11 @@ export function JdBreakdown({
   const experience =
     jd.min_experience_years == null && jd.max_experience_years == null
       ? "Not specified"
-      : `${jd.min_experience_years ?? "?"}–${jd.max_experience_years ?? "?"} years`;
+      : jd.max_experience_years == null
+        ? `${jd.min_experience_years}+ years`
+        : jd.min_experience_years == null
+          ? `Up to ${jd.max_experience_years} years`
+          : `${jd.min_experience_years}–${jd.max_experience_years} years`;
 
   return (
     <section className="mx-auto w-full max-w-5xl px-4 py-10">
