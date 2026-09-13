@@ -209,6 +209,21 @@ export const processResume = createServerFn({ method: "POST" })
       const bytes = new Uint8Array(await file.data.arrayBuffer());
       const rawText = await extractResumeText(bytes, data.file_name);
 
+      let coverLetterText: string | null = null;
+      if (data.cover_letter_path) {
+        const cover = await sb.storage.from("resumes").download(data.cover_letter_path);
+        if (!cover.error && cover.data) {
+          try {
+            coverLetterText = await extractResumeText(
+              new Uint8Array(await cover.data.arrayBuffer()),
+              data.cover_letter_file_name ?? data.cover_letter_path,
+            );
+          } catch {
+            coverLetterText = null;
+          }
+        }
+      }
+
       const resume = await generateJson<Record<string, unknown>>(
         "You parse resumes into structured data. Respond with JSON only, no markdown.",
         `Parse this resume.
